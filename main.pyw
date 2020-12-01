@@ -2,11 +2,14 @@ from pynput.keyboard import Key, Listener
 import pickle
 
 FILE = 'data.pickle'
-SAVE_COUNTER = 100
+SAVE_COUNTER = 1
 
 keys = set()
 data = dict()
 counter = 0
+
+def prefix():
+	return '[Listener]'
 
 def save_data():
 	global data
@@ -14,8 +17,8 @@ def save_data():
 		with open(FILE, 'wb') as f:
 			pickle.dump([data, keys], f)
 	except:
-		print('could not load file', FILE)
-		print('no data saved')
+		print(prefix(), 'could not load file', FILE)
+		print(prefix(), 'no data saved')
 		exit(-1)
 
 def load_data():
@@ -26,9 +29,9 @@ def load_data():
 			data = tmp[0]
 			keys = tmp[1]
 	except Exception as e:
-		print('could not load file', FILE)
-		print('no data loaded')
-		print('exception:', e)
+		print(prefix(), 'could not load file', FILE)
+		print(prefix(), 'no data loaded')
+		print(prefix(), 'exception:', e)
 
 def count_keystrokes():
 	global keys, data
@@ -41,7 +44,7 @@ def on_press(key):
 	global keys, data, counter, SAVE_COUNTER
 	print('key:', key)
 	if key not in keys:
-		print('found new key:', key)
+		print(prefix(), 'found new key:', key)
 		keys.add(key)
 		data[key] = 1
 	else:
@@ -50,11 +53,11 @@ def on_press(key):
 	if counter >= SAVE_COUNTER:
 		counter = 0
 		save_data()
-		print('data saved:', count_keystrokes(), 'keystrokes')
+		print(prefix(), 'data saved:', count_keystrokes(), 'keystrokes')
 
 if __name__ == '__main__':
 	load_data()
-	print('data loaded:', data)
-	print('listening for keys')
+	print(prefix(), 'data loaded:', data)
+	print(prefix(), 'listening for keys')
 	with Listener(on_press=on_press) as listener:
 		listener.join()
