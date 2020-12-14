@@ -32,3 +32,8 @@ body {
 	font-size: 2em;
 	text-shadow: 3px 3px white;
 }
+
+.canvasdiv {
+	width: 90%;
+	height: 90%;
+}
