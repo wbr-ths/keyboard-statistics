@@ -1,20 +1,20 @@
-const distribution_diagram_elem = document.getElementById('distribution_diagram');
+const time_diagram_elem = document.getElementById('time_diagram');
 
 var x = [1, 3, 2, 4];
 var lbls = ["14.12", "15.12", "16.12", "17.12"];
 
-const distribution_diagram_data = {
+const time_diagram_data = {
   labels: lbls,
   datasets: [
     {
-      backgroundColor: '#1EFF94', // '#129ec2',
-      borderColor: '#1EFF94', // #129ec2',
+      backgroundColor: 'rgba(18, 194, 233, 0.2)',//'#212329',
+      borderColor: '#12c2e9', // #129ec2',
       data: x,
     },
   ],
 }
 
-const distribution_diagram_options = {
+const time_diagram_options = {
   legend: {
     display: false,
     labels: {
@@ -47,8 +47,8 @@ const distribution_diagram_options = {
 }
 
 
-const distribution_diagram = new Chart(distribution_diagram_elem, {
+const time_diagram = new Chart(time_diagram_elem, {
   type: 'line',
-  data: distribution_diagram_data,
-  options: distribution_diagram_options,
+  data: time_diagram_data,
+  options: time_diagram_options,
 });

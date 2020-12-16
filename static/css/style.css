@@ -1,4 +1,6 @@
 body {
+	height: 100%;
+	width: 100%;
 	background-image: linear-gradient(to right top, #12c2e9, #00baf7, #20afff, #5ba1ff, #8a90ff, #ae81f4, #cc70e2, #e55dcb, #f450af, #fb4991, #fc4975, #f64f59);
 	font-family: 'Poppins', sans-serif;
 }
@@ -18,7 +20,7 @@ body {
 	box-shadow: 1px 1px 20px 1px #212329;
 	background-color: #212329;
 	height: 15cm;
-	border-radius: 10px;
+	border-radius: 20px;
 
 	margin: 30px;
 	padding-left: 20px;
