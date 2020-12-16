@@ -1,14 +1,14 @@
 const distribution_diagram_elem = document.getElementById('distribution_diagram');
 
 var x = [1, 3, 2, 4];
-var lbls = [1, 2, 3, 4];
+var lbls = ["14.12", "15.12", "16.12", "17.12"];
 
 const distribution_diagram_data = {
   labels: lbls,
   datasets: [
     {
-      backgroundColor: '#E38A39', // '#129ec2',
-      borderColor: '#E38A39', // #129ec2',
+      backgroundColor: '#1EFF94', // '#129ec2',
+      borderColor: '#1EFF94', // #129ec2',
       data: x,
     },
   ],
