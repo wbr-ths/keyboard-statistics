@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" href="static/images/keyboard-icon.png" />
 
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+	<script type="text/javascript" src="static/js/chartjs-plugin-labels.min.js"></script>
 	
 
 </head>
@@ -28,6 +29,10 @@
 			<div class="canvasdiv">
             	<canvas id="time_diagram"  width="100px" height="80px"></canvas>
           	</div>
+          	<script type="text/javascript">
+          		let time_diagram_data = {{time_diagram_data}};
+          		let time_diagram_labels = {{time_diagram_labels}};
+          	</script>
           	<script type="text/javascript" src="static/js/time_diagram.js"></script>
           	
 		</div>
@@ -37,7 +42,11 @@
 			<div class="canvasdiv">
             	<canvas id="distribution_diagram"  width="100px" height="80px"></canvas>
           	</div>
-          	<script type="text/javascript" src="static/js/keys_diagram.js"></script>
+          	<script type="text/javascript">
+          		let distribution_diagram_data = {{distribution_diagram_data}};
+          		let distribution_diagram_labels = {{distribution_diagram_labels}};
+          	</script>
+          	<script type="text/javascript" src="static/js/distribution_diagram.js"></script>
 		</div>
 
 	</div>
