@@ -13,7 +13,7 @@ def load_distribution():
     with open(DISTRIBUTION_FILE) as f:
         distribution = json.load(f)
         values = [distribution[d] for d in distribution]
-        keys = [d for d in distribution]
+        keys = distribution
     values, keys = zip(*sorted(zip(values, keys), reverse=True))
     return list(keys), list(values)
 
@@ -23,7 +23,7 @@ def load_time():
     with open(TIME_FILE) as f:
         time = json.load(f)
         values = [time[d] for d in time]
-        keys = [d for d in time]
+        keys = time
     return list(keys), list(values)
 
 
