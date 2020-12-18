@@ -29,7 +29,7 @@ def load_time():
 
 @app.route('/')
 def main():
-	"""Get request for root folder."""
+    """Get request for root folder."""
     return render_template('index.php',
                             time_diagram_data=time['values'],
                             time_diagram_labels=time['keys'],
