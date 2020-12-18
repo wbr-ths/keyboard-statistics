@@ -1,0 +1,3 @@
+pynput
+flask
+flask-socketIO
