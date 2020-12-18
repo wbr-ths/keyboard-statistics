@@ -45,7 +45,7 @@ const timeDiagramOptions = {
 }
 
 
-const time_diagram = new Chart(timeDiagramElem, {
+const timeDiagram = new Chart(timeDiagramElem, {
   type: 'line',
   data: timeDiagramDatasets,
   options: timeDiagramOptions,

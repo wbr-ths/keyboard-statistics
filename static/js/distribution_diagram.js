@@ -4,7 +4,7 @@ const distributionDiagramElem = document.
 // var x = ;
 // var lbls = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
 
-const distributionDiagramElem = {
+const distributionDiagramDatasets = {
   labels: distribution_diagram_labels,
   datasets: [
     {
@@ -17,7 +17,7 @@ const distributionDiagramElem = {
   ],
 }
 
-const distributionDiagramElem = {
+const distributionDiagramOptions = {
   plugins: {
     labels: {
       render: 'label',
@@ -45,6 +45,6 @@ const distributionDiagramElem = {
 
 const distribution_diagram = new Chart(distributionDiagramElem, {
   type: 'pie',
-  data: distributionDiagramElem,
-  options: distributionDiagramElem,
+  data: distributionDiagramDatasets,
+  options: distributionDiagramOptions,
 });

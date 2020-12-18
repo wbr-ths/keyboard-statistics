@@ -3,16 +3,23 @@
 <head>
 	<title>Keyboard Statistics 🔥</title>
 
-	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<!-- stylesheets -->
+	<link href="https://fonts.gstatic.com" rel="preconnect">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="static/css/style.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    <link rel="icon" type="image/png" href="static/images/keyboard-icon.png" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="static/images/keyboard-icon.png" type="image/png" rel="icon"/>
 
+    <!-- custom stylesheets -->
+    <link href="static/css/style.css" type="text/css" rel="stylesheet">
+
+    <!-- scripts -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 	<script type="text/javascript" src="static/js/chartjs-plugin-labels.min.js"></script>
-	
+	<script type="text/javascript" src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+	<!-- custom scripts -->
+	<script type="text/javascript" src="static/js/live-updater.js"></script>
 
 </head>
 
@@ -24,7 +31,7 @@
 	
 	<div class="flex-container">
 
-		<div class="card" id="distribution">
+		<div class="card">
 			<h1><span class="material-icons">timeline</span>  Usage over time</h1>
 			<div class="canvasdiv">
             	<canvas id="time_diagram"  width="100px" height="80px"></canvas>
@@ -37,7 +44,7 @@
           	
 		</div>
 
-		<div class="card" id="test">
+		<div class="card">
 			<h1><span class="material-icons">pie_chart</span>  Usage By Key Today</h1>
 			<div class="canvasdiv">
             	<canvas id="distribution_diagram"  width="100px" height="80px"></canvas>
