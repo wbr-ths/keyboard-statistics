@@ -12,36 +12,30 @@ $(document).ready(function() {
     timeDiagram.data.labels = data['time_labels']
     timeDiagram.update()
 
-    console.log(data)
+    distributionDiagram.data.datasets[0].data = data['distribution_data']
+    distributionDiagram.data.labels = data['distribution_labels']
 
-    //alert('updated')
-    //timeDiagram.data.labels = []
-
-    /*
-
-    // update current profit label
-    const tmp = data['profit_history'];
-    currentProfit = Math.round((tmp[tmp.length-1] + Number.EPSILON) *
-                   100) / 100
-    elem = document.getElementById('current_profit_label')
-    if (currentProfit >= 0) {
-      elem.style.color = '#79B473'
-      elem.text = '+' + currentProfit + '%';
-    } else {
-      elem.style.color = '#b44356'
-      elem.text = currentProfit + '%';
+    const len = distributionDiagram.data.datasets[0].data.length
+    const all = timeDiagram.data.datasets[0].data[timeDiagram.data.datasets[0].data.length-1];
+    let other = 0;
+    for (let i = 0; i < len; i++) {
+      if (distributionDiagram.data.datasets[0].data[i]/all < 0.015){
+        for (let j = i; j < distributionDiagram.data.datasets[0].data.length; j++) {
+          other += distributionDiagram.data.datasets[0].data[j];
+        }
+        distributionDiagram.data.datasets[0].data.splice(i, len-i);
+        distributionDiagram.data.labels.splice(i, len-i);
+        distributionDiagram.data.datasets[0].data.push(other);
+        distributionDiagram.data.labels.push('other');
+        i = Infinity;
+      }
     }
 
-    // update current profit diagram
-    profitDiagram.data.datasets[0].data = data['profits']
-    profitDiagram.data.labels = data['profits_label']
+    let colors = interpolateColors("rgb(18, 194, 233)", "rgb(246, 79, 89)", distributionDiagram.data.labels.length)
+    distributionDiagram.data.datasets[0].backgroundColor = colors
+    
+    distributionDiagram.update()
 
-    profitDiagram.update()
-
-    // update profitday diagram
-    profitdayDiagram.data.datasets[0].data = data['profit_history']
-    profitdayDiagram.data.labels = data['profit_time']
-    profitdayDiagram.update()
-    */
+  
   });
 });

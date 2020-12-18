@@ -1,16 +1,33 @@
 const distributionDiagramElem = document.
                                   getElementById('distribution_diagram');
 
-// var x = ;
-// var lbls = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
+
+// distribution_diagram_data, distribution_diagram_labels
+const len = distribution_diagram_data.length
+const all = timeDiagram.data.datasets[0].data[timeDiagram.data.datasets[0].data.length-1];
+let other = 0;
+for (let i = 0; i < len; i++) {
+  if (distribution_diagram_data[i]/all < 0.015){
+    for (let j = i; j < distribution_diagram_data.length; j++) {
+      other += distribution_diagram_data[j];
+    }
+    distribution_diagram_data.splice(i, len-i);
+    distribution_diagram_labels.splice(i, len-i);
+    distribution_diagram_data.push(other);
+    distribution_diagram_labels.push('other');
+    i = Infinity;
+  }
+}
+//console.log(all);
 
 const distributionDiagramDatasets = {
   labels: distribution_diagram_labels,
   datasets: [
     {
-      backgroundColor: ['#12c2e9', '#00baf7', '#20afff', '#5ba1ff', '#8a90ff',
-                        '#ae81f4', '#cc70e2', '#e55dcb', '#f450af', '#fb4991',
-                        '#fc4975', '#f64f59'], // '#129ec2',
+      //backgroundColor: ['#12c2e9', '#00baf7', '#20afff', '#5ba1ff', '#8a90ff',
+      //                  '#ae81f4', '#cc70e2', '#e55dcb', '#f450af', '#fb4991',
+      //                  '#fc4975', '#f64f59'], // '#129ec2',
+      backgroundColor: interpolateColors("rgb(18, 194, 233)", "rgb(246, 79, 89)", distribution_diagram_labels.length),
       borderColor: '#212329',
       data: distribution_diagram_data,
     },
@@ -43,7 +60,7 @@ const distributionDiagramOptions = {
 }
 
 
-const distribution_diagram = new Chart(distributionDiagramElem, {
+const distributionDiagram = new Chart(distributionDiagramElem, {
   type: 'pie',
   data: distributionDiagramDatasets,
   options: distributionDiagramOptions,

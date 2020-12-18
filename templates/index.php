@@ -19,6 +19,7 @@
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 
 	<!-- custom scripts -->
+	<script type="text/javascript" src="static/js/util.js"></script>
 	<script type="text/javascript" src="static/js/live-updater.js"></script>
 
 </head>
