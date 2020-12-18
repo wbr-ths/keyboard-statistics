@@ -6,139 +6,137 @@ import threading
 
 DISTRIBUTION_FILE = 'distribution.json'
 TIME_FILE = 'time.json'
+CONVERT_FILE = 'convert.json'
 REQUEST_URL = 'http://127.0.0.1:5000/new-data'
 SAVE_COUNTER = 10
 
 current_date = ''
 time = {}
-data = {}
-counter = 1
+dist = {}
+counter = 0
 
 def prefix():
 	return '[Listener]'
 
-def get_merged_json(data, time):
-	# return REQUEST_URL + '?distribution=' + str(data).replace(' ', '').replace('\'', '%22') + '&time=' + str(time).replace(' ', '').replace('\'', '%22')
-	temp = {'distribution': data, 'time': time}
-	return json.dumps(temp)
 
-def send_request(data, time):
+def load():
+	global dist, time
 	try:
-		requests.post(REQUEST_URL, data = get_merged_json(data, time))
-	except:
-		print("Server not running")
+		with open(DISTRIBUTION_FILE, 'r') as f:
+			dist = json.load(f)
+		with open(TIME_FILE, 'r') as f:
+			time = json.load(f)
+		# with open(CONVERT_FILE, 'r') as f:
+		# 	convert = json.load(f)
+	except Exception as e:
+		print(prefix(), 'Could not load files')
+		print(prefix(), 'Exception:', e)
 
-def check_date(current_date):
-	global data
-	temp_date = str(date.today().strftime('%d.%m.%Y'))
-	if current_date == '':
-		return str(list(time)[-1])
-	if temp_date != current_date:
-		time[temp_date] = 0
-		data = {}
-		save_data()
-		return temp_date
-	return current_date
 
-def save_time():
-	global time
+def save(dist, time):
 	try:
+		with open(DISTRIBUTION_FILE, 'w') as f:
+			json.dump(dist, f)
 		with open(TIME_FILE, 'w') as f:
 			json.dump(time, f)
 	except Exception as e:
-		print(prefix(), 'could not load file', TIME_FILE)
-		print(prefix(), 'no time saved')
-		print(e)
-		exit(-1)
+		print(prefix(), 'Could not load files')
+		print(prefix(), 'Exception:', e)
 
 
-def load_time():
-	global time
-	try:
-		with open(TIME_FILE, 'r') as f:
-			time = json.load(f)
-	except Exception as e:
-		print(prefix(), 'could not load file', TIME_FILE)
-		print(prefix(), 'no time loaded')
-		print(prefix(), 'exception:', e)
+def check_date(current_date):
+	global dist
+	temp_date = str(date.today().strftime('%d.%m.%Y'))
+	if temp_date == current_date:
+		return current_date
+	if current_date == '':
+		if len(list(time)) != 0:
+			return str(list(time)[-1])
+	time[temp_date] = 0
+	dist = {}
+	return temp_date
 
-def save_data():
-	global data
-	try:
-		with open(DISTRIBUTION_FILE, 'w') as f:
-			json.dump(data, f)
-	except Exception as e:
-		print(prefix(), 'could not load file', DISTRIBUTION_FILE)
-		print(prefix(), 'no data saved')
-		print(e)
-		exit(-1)
 
-def load_data():
-	global data
-	try:
-		with open(DISTRIBUTION_FILE, 'r') as f:
-			data = json.load(f)
-	except Exception as e:
-		print(prefix(), 'could not load file', DISTRIBUTION_FILE)
-		print(prefix(), 'no data loaded')
-		print(prefix(), 'exception:', e)
-
-def count_keystrokes():
-	global data
+def count_keystrokes(dist):
 	c = 0
-	for key in data:
-		c += data[key]
+	for key in dist:
+		c += dist[key]
 	return c
 
+
 def on_press(key):
-	global data, counter, SAVE_COUNTER, current_date
-	key = str(key)
-	before = key
-
+	global counter, current_date
 	current_date = check_date(current_date)
-
-	# Exit key
-	'''if before == '\'p\'':
-		print('exited key logger')
-		exit(0) '''
-
+	key = str(key)
+	# old = key
+	ext = False
+	
 	if key.startswith('Key.'):
 		key = key.split('.')[1]
-	elif key.startswith('<'):
-		key = '!' + key.replace('<', '').replace('>', '') # ! means, the key is not plain text
-		if key == '!65':
-			print('Exit due to Ctrl+Shift+A')
-			exit(0)
-		# key = 'ctrl_l+alt+' + str(chr(int(key)))
 	elif key.startswith('\'\\x'):
-		key = '!' + key.replace('\'\\x', '').replace('\'', '') # ! means, the key is not plain text
-		# key = 'ctrl_l+' + str(chr(int(key)+64))
+		key = key.replace('\'\\', '').replace('\'', '')
+	elif key.startswith('<'):
+		try:
+			n = int(key.replace('<', '').replace('>', ''))
+			if n > 47 and n < 97:
+				key = 'ctrl+alt+' + chr(n)
+				if key == 'ctrl+alt+A':
+					print('Exit due to CTRL+ALT+A')
+					ext = True
+			else:
+				key = 'ctrl+alt+' + n
+		except:
+			key = 'ctrl+alt+' + key.replace('<', '').replace('>', '')
 	else:
 		key = key.replace('\'', '')
 
-	print(before, ' -> ', key)
-	
-	if key in data:
-		data[key] += 1
+	if key == 'ä':
+		key = 'ae'
+	elif key == 'ö':
+		key = 'oe'
+	elif key == 'ü':
+		key = 'ue'
+	elif key == 'Ä':
+		key = 'AE'
+	elif key == 'Ö':
+		key = 'OE'
+	elif key == 'Ü':
+		key = 'UE'
+	elif key == 'ß':
+		key = 'ss'
+
+	key = key.replace('\\', '')
+
+	# print(old, '->', key)
+
+	if key in dist:
+		dist[key] += 1
 	else:
-		print('new key found:', key)
-		data[key] = 1
-	
-	thread = threading.Thread(target = send_request, args = [data, time,])
+		dist[key] = 1
+
+	if ext:
+		exit(0)
+
+	thread = threading.Thread(target = send_request, args = [dist, time,])
 	thread.start()
 
 	counter += 1
 	if counter >= SAVE_COUNTER:
-		counter = 1
-		time[current_date] = count_keystrokes()
-		save_data()
-		save_time()
-		print(prefix(), 'data saved:', count_keystrokes(), 'keystrokes')
+		counter = 0
+		time[current_date] = count_keystrokes(dist)
+		save(dist, time)
+		print(prefix(), 'dist saved:', count_keystrokes(dist), 'keystrokes')
+
+
+def send_request(dist, time):
+	try:
+		requests.get(REQUEST_URL + '?distribution=' + str(dist).replace(' ', '').replace('\'', '%22') + '&time=' + str(time).replace(' ', '').replace('\'', '%22'))
+	except:
+		print("Server not running")
+
 
 if __name__ == '__main__':
-	load_time()
-	load_data()
-	print(prefix(), 'data loaded:', data)
-	print(prefix(), 'listening for keys')
+	load()
+	print(prefix(), 'Started key listener...')
 	with Listener(on_press=on_press) as listener:
 		listener.join()
