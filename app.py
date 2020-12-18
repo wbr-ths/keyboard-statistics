@@ -9,7 +9,7 @@ distribution, time = {}, {}
 
 
 def load_distribution():
-    """returns keys and values from distribution json file"""
+    """Returns keys and values from distribution json file."""
     with open(DISTRIBUTION_FILE) as f:
         distribution = json.load(f)
         values = [distribution[d] for d in distribution]
@@ -19,7 +19,7 @@ def load_distribution():
 
 
 def load_time():
-    """returns keys and values from time json file"""
+    """Returns keys and values from time json file."""
     with open(TIME_FILE) as f:
         time = json.load(f)
         values = [time[d] for d in time]
@@ -29,6 +29,7 @@ def load_time():
 
 @app.route('/')
 def main():
+	"""Get request for root folder."""
     return render_template('index.php',
                             time_diagram_data=time['values'],
                             time_diagram_labels=time['keys'],
