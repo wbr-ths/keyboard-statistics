@@ -10,7 +10,7 @@
 * flask-socketIO
 
 Install dependencies via pip:
-```pip install requirements.txt```
+```pip install -r requirements.txt```
 
 ## Installation
 Just clone the repository, install the dependencies and run the ```main.py```. Then go to [your local web-app](http://127.0.0.1:5000) and checkout your keyboard usage.
