@@ -126,12 +126,12 @@ def on_press(key):
 			else:
 				dist[key] = 1
 
+	time[current_date] = key_amount
 	threading.Thread(target = send_request, args = [dist, time,]).start()
 
 	counter += 1
 	if counter >= SAVE_COUNTER:
 		counter = 0
-		time[current_date] = key_amount
 		threading.Thread(target=save, args=[dist, time, ]).start()
 		print(prefix(), 'dist saved:', key_amount, 'keystrokes')
 
