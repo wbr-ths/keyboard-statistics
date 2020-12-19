@@ -64,7 +64,7 @@ def count_keystrokes(dist):
 	return c
 
 
-def on_press(key):
+def on_release(key):
 	global counter, current_date, last_key, key_amount
 	current_date = check_date(current_date)
 	key = str(key)
@@ -154,7 +154,7 @@ def send_request(dist, time):
 def start_logger():
 	load()
 	print(prefix(), 'Started key listener...')
-	with Listener(on_press=on_press) as listener:
+	with Listener(on_release=on_release) as listener:
 		listener.join()
 
 if __name__ == '__main__':
