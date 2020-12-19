@@ -1,0 +1,41 @@
+body {
+	height: 100%;
+	width: 100%;
+	background-image: linear-gradient(to right top, #12c2e9, #00baf7, #20afff, #5ba1ff, #8a90ff, #ae81f4, #cc70e2, #e55dcb, #f450af, #fb4991, #fc4975, #f64f59);
+	font-family: 'Poppins', sans-serif;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 100px;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+	color: white;
+	width: 15cm;
+	box-shadow: 1px 1px 20px 1px #212329;
+	background-color: #212329;
+	height: 15cm;
+	border-radius: 20px;
+
+	margin: 30px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.banner {
+	width: 100%;
+	text-align: center;
+	margin-top: 50px;
+	font-size: 2em;
+	text-shadow: 3px 3px white;
+}
+
+.canvasdiv {
+	width: 100%;
+	height: 100%;
+}
