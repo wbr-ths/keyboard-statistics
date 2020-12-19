@@ -26,6 +26,7 @@
 
 <body>
 
+	<br>
 	<div class="banner">
 		<h1>Keyboard Statistics</h1>
 	</div>
