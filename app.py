@@ -18,6 +18,8 @@ def load_distribution(DISTRIBUTION_FILE, data=None):
     else:
         with open(DISTRIBUTION_FILE) as f:
             distribution = json.load(f)
+    if len(distribution) == 0:
+        return [], []
     values = [distribution[d] for d in distribution]
     keys = distribution
     values, keys = zip(*sorted(zip(values, keys), reverse=True))
@@ -31,6 +33,8 @@ def load_time(TIME_FILE, data=None):
     else:
         with open(TIME_FILE) as f:
             time = json.load(f)
+    if len(time) == 0:
+        return [], []
     values = [time[d] for d in time]
     keys = time
     return list(keys), list(values)
@@ -69,8 +73,7 @@ def new_data():
     keys, values = load_time(None, data=json.loads(request.args['time']))
     time['keys'], time['values'] = keys, values
 
-    thread = threading.Thread(target=send_data)
-    thread.start()
+    threading.Thread(target=send_data).start()
 
     return 'success'
 
@@ -94,3 +97,6 @@ def start_app():
 
     app_loaded = True
     app.run()
+
+if __name__ == '__main__':
+    start_app()
