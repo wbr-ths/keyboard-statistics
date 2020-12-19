@@ -13,12 +13,13 @@ app_loaded = False
 
 def load_distribution(DISTRIBUTION_FILE, data=None):
     """Returns keys and values from distribution json file."""
-    if data != None:
-        distribution = data
-    else:
-        with open(DISTRIBUTION_FILE) as f:
-            distribution = json.load(f)
-    if len(distribution) == 0:
+    try:
+        if data != None:
+            distribution = data
+        else:
+            with open(DISTRIBUTION_FILE) as f:
+                distribution = json.load(f)
+    except:
         return [], []
     values = [distribution[d] for d in distribution]
     keys = distribution
@@ -28,12 +29,13 @@ def load_distribution(DISTRIBUTION_FILE, data=None):
 
 def load_time(TIME_FILE, data=None):
     """Returns keys and values from time json file."""
-    if data != None:
-        time = data
-    else:
-        with open(TIME_FILE) as f:
-            time = json.load(f)
-    if len(time) == 0:
+    try:
+        if data != None:
+            time = data
+        else:
+            with open(TIME_FILE) as f:
+                time = json.load(f)
+    except:
         return [], []
     values = [time[d] for d in time]
     keys = time
