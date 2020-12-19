@@ -7,7 +7,6 @@ DISTRIBUTION_FILE = 'distribution.json'
 TIME_FILE = 'time.json'
 distribution, time = {}, {}
 
-
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode=None, logger=True, engineio_logger=True)
 app_loaded = False
@@ -85,8 +84,8 @@ def main():
                             distribution_diagram_labels=distribution['keys'],)
 
 
-if __name__ == '__main__':
-
+def start_app():
+    global app_loaded, distribution, time
     keys, values = load_distribution(DISTRIBUTION_FILE)
     distribution['keys'], distribution['values'] = keys, values
 

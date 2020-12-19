@@ -146,7 +146,7 @@ def send_request(dist, time):
 		print("Server not running")
 
 
-if __name__ == '__main__':
+def start_logger():
 	load()
 	print(prefix(), 'Started key listener...')
 	with Listener(on_press=on_press) as listener:
