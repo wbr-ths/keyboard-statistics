@@ -90,6 +90,8 @@ def on_release(key):
 	else:
 		key = key.replace('\'', '')
 
+	key = key.replace('\\', '')
+
 	if key == 'ä':
 		key = 'ae'
 	elif key == 'ö':
@@ -106,14 +108,16 @@ def on_release(key):
 		key = 'ss'
 	elif key == '§':
 		key = 'section-sign'
-
-	key = key.replace('\\', '')
-	if '"' in key:
-		key = 'quotation-mark'
-	if key == '#':
+	elif key == '%':
+		key = 'percent'
+	elif key == '&':
+		key = 'et'
+	elif key == '#':
 		key = 'hashtag'
-	if key == '':
+	elif key == '':
 		key = 'backslash'
+	elif '"' in key:
+		key = 'quotation-mark'
 
 	if ext:
 		exit(0)
