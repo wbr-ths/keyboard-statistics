@@ -104,8 +104,16 @@ def on_press(key):
 		key = 'UE'
 	elif key == 'ß':
 		key = 'ss'
+	elif key == '§':
+		key = 'section-sign'
 
 	key = key.replace('\\', '')
+	if '"' in key:
+		key = 'quotation-mark'
+	if key == '#':
+		key = 'hashtag'
+	if key == '':
+		key = 'backslash'
 
 	if ext:
 		exit(0)
