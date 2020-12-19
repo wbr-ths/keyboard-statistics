@@ -16,23 +16,22 @@ dist = {}
 ignore = ['shift', 'shift_r', 'ctrl_l', 'ctrl_r', 'alt_l', 'alt_gr', 'backspace', 'delete', 'right', 'down', 'left', 'up']
 counter = 0
 last_key = ''
+key_amount = 0
 
 def prefix():
 	return '[Listener]'
 
 
 def load():
-	global dist, time
+	global dist, time, key_amount
 	try:
-		with open(DISTRIBUTION_FILE, 'r') as f:
-			dist = json.load(f)
 		with open(TIME_FILE, 'r') as f:
 			time = json.load(f)
-		# with open(CONVERT_FILE, 'r') as f:
-		# 	convert = json.load(f)
-	except Exception as e:
-		print(prefix(), 'Could not load files')
-		print(prefix(), 'Exception:', e)
+		with open(DISTRIBUTION_FILE, 'r') as f:
+			dist = json.load(f)
+		key_amount = count_keystrokes(dist)
+	except:
+		print('At least one JSON file could not be opened')
 
 
 def save(dist, time):
@@ -41,9 +40,8 @@ def save(dist, time):
 			json.dump(dist, f)
 		with open(TIME_FILE, 'w') as f:
 			json.dump(time, f)
-	except Exception as e:
-		print(prefix(), 'Could not load files')
-		print(prefix(), 'Exception:', e)
+	except:
+		print('At least one JSON file could not be saved')
 
 
 def check_date(current_date):
@@ -67,7 +65,7 @@ def count_keystrokes(dist):
 
 
 def on_press(key):
-	global counter, current_date, last_key
+	global counter, current_date, last_key, key_amount
 	current_date = check_date(current_date)
 	key = str(key)
 	old = key
@@ -109,9 +107,12 @@ def on_press(key):
 
 	key = key.replace('\\', '')
 
+	if ext:
+		exit(0)
 	print(old, '->', key)
 	if key not in ignore:
 		last_key = ''
+		key_amount += 1
 		if key in dist:
 			dist[key] += 1
 		else:
@@ -119,24 +120,20 @@ def on_press(key):
 	else:
 		if last_key != key:
 			last_key = key
+			key_amount += 1
 			if key in dist:
 				dist[key] += 1
 			else:
 				dist[key] = 1
 
-
-	if ext:
-		exit(0)
-
-	thread = threading.Thread(target = send_request, args = [dist, time,])
-	thread.start()
+	threading.Thread(target = send_request, args = [dist, time,]).start()
 
 	counter += 1
 	if counter >= SAVE_COUNTER:
 		counter = 0
-		time[current_date] = count_keystrokes(dist)
-		save(dist, time)
-		print(prefix(), 'dist saved:', count_keystrokes(dist), 'keystrokes')
+		time[current_date] = key_amount
+		threading.Thread(target=save, args=[dist, time, ]).start()
+		print(prefix(), 'dist saved:', key_amount, 'keystrokes')
 
 
 def send_request(dist, time):
@@ -151,3 +148,6 @@ def start_logger():
 	print(prefix(), 'Started key listener...')
 	with Listener(on_press=on_press) as listener:
 		listener.join()
+
+if __name__ == '__main__':
+	start_logger()
