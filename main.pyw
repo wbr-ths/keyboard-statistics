@@ -13,7 +13,9 @@ SAVE_COUNTER = 10
 current_date = ''
 time = {}
 dist = {}
+ignore = ['shift', 'shift_r', 'ctrl_l', 'ctrl_r', 'alt_l', 'alt_gr', 'backspace', 'delete', 'right', 'down', 'left', 'up']
 counter = 0
+last_key = ''
 
 def prefix():
 	return '[Listener]'
@@ -65,12 +67,12 @@ def count_keystrokes(dist):
 
 
 def on_press(key):
-	global counter, current_date
+	global counter, current_date, last_key
 	current_date = check_date(current_date)
 	key = str(key)
-	# old = key
+	old = key
 	ext = False
-	
+
 	if key.startswith('Key.'):
 		key = key.split('.')[1]
 	elif key.startswith('\'\\x'):
@@ -107,12 +109,21 @@ def on_press(key):
 
 	key = key.replace('\\', '')
 
-	# print(old, '->', key)
-
-	if key in dist:
-		dist[key] += 1
+	print(old, '->', key)
+	if key not in ignore:
+		last_key = ''
+		if key in dist:
+			dist[key] += 1
+		else:
+			dist[key] = 1
 	else:
-		dist[key] = 1
+		if last_key != key:
+			last_key = key
+			if key in dist:
+				dist[key] += 1
+			else:
+				dist[key] = 1
+
 
 	if ext:
 		exit(0)
