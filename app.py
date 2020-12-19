@@ -21,6 +21,8 @@ def load_distribution(DISTRIBUTION_FILE, data=None):
                 distribution = json.load(f)
     except:
         return [], []
+    if len(distribution) == 0:
+    	return [], []
     values = [distribution[d] for d in distribution]
     keys = distribution
     values, keys = zip(*sorted(zip(values, keys), reverse=True))
@@ -37,6 +39,8 @@ def load_time(TIME_FILE, data=None):
                 time = json.load(f)
     except:
         return [], []
+    if len(time) == 0:
+    	return [], []
     values = [time[d] for d in time]
     keys = time
     return list(keys), list(values)
