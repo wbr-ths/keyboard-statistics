@@ -45,7 +45,7 @@ def save(dist, time):
 
 
 def check_date(current_date):
-	global dist
+	global dist, key_amount
 	temp_date = str(date.today().strftime('%d.%m.%Y'))
 	if temp_date == current_date:
 		return current_date
@@ -54,6 +54,7 @@ def check_date(current_date):
 			return str(list(time)[-1])
 	time[temp_date] = 0
 	dist = {}
+	key_amount = 0
 	return temp_date
 
 
