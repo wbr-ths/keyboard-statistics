@@ -3,6 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/wbr-ths/keyboard-statistics)
 [![Github all releases](https://img.shields.io/github/downloads/wbr-ths/keyboard-statistics/total)](https://GitHub.com/wbr-ths/keyboard-statistics/releases/)
 ![GitHub contributors](https://img.shields.io/github/contributors/wbr-ths/keyboard-statistics)
+![visitor badge](https://visitor-badge.glitch.me/badge?page_id=wbr-ths.keyboard-statistics)
 
 ## Dependencies
 * pynput
