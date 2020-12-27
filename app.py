@@ -90,7 +90,9 @@ def main():
                             time_diagram_data=time['values'],
                             time_diagram_labels=time['keys'],
                             distribution_diagram_data=distribution['values'],
-                            distribution_diagram_labels=distribution['keys'],)
+                            distribution_diagram_labels=distribution['keys'],
+                            total_today=time['values'][-1],
+                            total_distinct_keys=len(distribution['keys']),)
 
 
 def start_app():

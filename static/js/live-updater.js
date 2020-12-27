@@ -7,15 +7,18 @@ $(document).ready(function() {
     // get data
     const data = JSON.parse(msg.data);
 
+    // update total distinct keys
+    document.getElementById("total_distinct_keys").innerHTML = data['distribution_data'].length;
+
     // update time-diagram
-    timeDiagram.data.datasets[0].data = data['time_data']
-    timeDiagram.data.labels = data['time_labels']
-    timeDiagram.update()
+    timeDiagram.data.datasets[0].data = data['time_data'];
+    timeDiagram.data.labels = data['time_labels'];
+    timeDiagram.update();
 
-    distributionDiagram.data.datasets[0].data = data['distribution_data']
-    distributionDiagram.data.labels = data['distribution_labels']
-
-    const len = distributionDiagram.data.datasets[0].data.length
+    // update distribution-diagram
+    distributionDiagram.data.datasets[0].data = data['distribution_data'];
+    distributionDiagram.data.labels = data['distribution_labels'];
+    const len = distributionDiagram.data.datasets[0].data.length;
     const all = timeDiagram.data.datasets[0].data[timeDiagram.data.datasets[0].data.length-1];
     let other = 0;
     for (let i = 0; i < len; i++) {
@@ -30,12 +33,12 @@ $(document).ready(function() {
         i = Infinity;
       }
     }
+    let colors = interpolateColors("rgb(18, 194, 233)", "rgb(246, 79, 89)", distributionDiagram.data.labels.length);
+    distributionDiagram.data.datasets[0].backgroundColor = colors;
+    distributionDiagram.update();
 
-    let colors = interpolateColors("rgb(18, 194, 233)", "rgb(246, 79, 89)", distributionDiagram.data.labels.length)
-    distributionDiagram.data.datasets[0].backgroundColor = colors
-    
-    distributionDiagram.update()
-
+    // update total keys today
+    document.getElementById("total_today").innerHTML = all;
   
   });
 });
